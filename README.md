@@ -1,4 +1,4 @@
 # myNewProject
 
 rn-hw-01:
-http://joxi.ru/4Akw5nRCjzMqKA
+http://joxi.net/V2Vk49oIBj0yaA
