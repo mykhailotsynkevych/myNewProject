@@ -11,6 +11,7 @@ import {
   Platform,
   Alert,
   Button,
+  TouchableOpacity,
 } from "react-native";
 
 const RegistrationForm = () => {
@@ -51,13 +52,24 @@ const RegistrationForm = () => {
             secureTextEntry={true}
             style={s.input}
           />
-          <View style={s.button}>
-            <Button title={"Зарегистрироваться"} onPress={onRegistration} />
-          </View>
+
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={s.button}
+            onPress={onRegistration}
+          >
+            <Text style={s.btnTitle}>Зарегистрироваться</Text>
+          </TouchableOpacity>
 
           <Text style={s.bala}>
             Уже есть аккаунт?
-            <Button title={"Войти"} onPress={onRegistration} />
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={s.balaButton}
+              onPress={onRegistration}
+            >
+              <Text style={s.balaButton}>Войти</Text>
+            </TouchableOpacity>
           </Text>
         </KeyboardAvoidingView>
       </View>
@@ -102,10 +114,28 @@ const s = StyleSheet.create({
     width: 343,
     marginTop: 43,
     marginLeft: 34,
-    paddingTop: 8,
-    paddingBottom: 8,
-    paddingLeft: 32,
-    paddingRight: 32,
+    paddingTop: 16,
+    paddingBottom: 16,
+    // paddingLeft: 32,
+    // paddingRight: 32,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  btnTitle: {
+    color: "#f0f8ff",
+    fontSize: 18,
+  },
+  bala: {
+    fontSize: 18,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 16,
+  },
+  balaButton: {
+    fontSize: 18,
+    marginLeft: 5,
   },
 });
 
