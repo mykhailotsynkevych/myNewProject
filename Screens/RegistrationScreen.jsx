@@ -11,8 +11,8 @@ const RegistrationScreen = () => {
         source={require("../assets/images/bg-image.jpg")}
       >
         
-      </ImageBackground>
       <RegistrationForm />
+      </ImageBackground>
     </View>
   );
 };
@@ -21,11 +21,12 @@ const s = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+        
   },
   image: {
     flex: 1,
     resizeMode: "cover",
-    justifyContent: "center",
+justifyContent: "flex-end",
   },
 });
 

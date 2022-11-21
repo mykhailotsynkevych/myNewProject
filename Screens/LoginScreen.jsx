@@ -1,13 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View, ImageBackground } from "react-native";
+
+import LoginForm from "../components/LoginForm";
 
 const LoginScreen = () => {
-
-
   return (
     <View style={s.container}>
-      <Text style={s.text}>Misha. Wie geht's?</Text>
-      <StatusBar style="auto" />
+      <ImageBackground
+        style={s.image}
+        source={require("../assets/images/bg-image.jpg")}
+      >
+              <LoginForm />
+      </ImageBackground>
     </View>
   );
 };
@@ -15,13 +19,13 @@ const LoginScreen = () => {
 const s = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'tomato',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
   },
-  text: {
-    fontSize: '25',
-  }
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "flex-end",
+  },
 });
 
 export default LoginScreen;

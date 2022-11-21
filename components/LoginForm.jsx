@@ -15,33 +15,24 @@ import {
   Image,
 } from "react-native";
 
-const RegistrationForm = () => {
+const LoginForm = () => {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const loginHandler = (text) => setLogin(text);
   const emailHandler = (text) => setEmail(text);
   const passwordHandler = (text) => setPassword(text);
 
   const onRegistration = () => {
-    Alert.alert("Credentials", `${login} + ${email} + ${password}`);
+    Alert.alert("Credentials", `${email} + ${password}`);
   };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={s.container}>
-        <Image source={{uri: 'https://reactjs.org/logo-og.png'}}
-       style={s.avatar} />
-        <Text style={s.text}>Регистрация</Text>
+        <Text style={s.text}>Войти</Text>
         <KeyboardAvoidingView
           behavior={Platform.OS == "ios" ? "padding" : "height"}
         >
-          <TextInput
-            value={login}
-            onChangeText={loginHandler}
-            placeholder="Логин"
-            style={s.input}
-          />
           <TextInput
             value={email}
             onChangeText={emailHandler}
@@ -61,18 +52,18 @@ const RegistrationForm = () => {
             style={s.button}
             onPress={onRegistration}
           >
-            <Text style={s.btnTitle}>Зарегистрироваться</Text>
+            <Text style={s.btnTitle}>Войти</Text>
           </TouchableOpacity>
 
           <View style={s.loginView}>
             <Text style={s.loginText}>
-              Уже есть аккаунт?
+              Нет аккаунта?
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={s.loginButton}
                 onPress={onRegistration}
               >
-                <Text style={s.loginButton}>Войти</Text>
+                <Text style={s.loginButton}>Зарегистрироваться</Text>
               </TouchableOpacity>
             </Text>
           </View>
@@ -90,18 +81,12 @@ const s = StyleSheet.create({
     alignItems: "center",
     
   },
-  avatar: {
-    width: 120,
-    height: 120,
-    borderRadius: 16,
-    marginBottom: 32,
-    marginTop: -60,
-  },
   text: {
     fontSize: 30,
     lineHeight: 35,
     color: "#212121",
-    marginBottom: 32,
+      marginBottom: 32,
+      marginTop: 32,
     fontWeight: "bold",
   },
   input: {
@@ -136,10 +121,11 @@ const s = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 16,
-    marginBottom: 78,
+    marginBottom: 144,
   },
   loginText: {
-    fontSize: 18,
+      fontSize: 18,
+      
   },
   loginButton: {
     color: "#1B4371",
@@ -148,4 +134,4 @@ const s = StyleSheet.create({
   },
 });
 
-export default RegistrationForm;
+export default LoginForm;
