@@ -19,6 +19,7 @@ const RegistrationForm = () => {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
 
   const loginHandler = (text) => setLogin(text);
   const emailHandler = (text) => setEmail(text);
@@ -26,58 +27,77 @@ const RegistrationForm = () => {
 
   const onRegistration = () => {
     Alert.alert("Credentials", `${login} + ${email} + ${password}`);
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
   };
+
+  const dismissKeyboard = () => {
+    Keyboard.dismiss();
+    setIsShowKeyboard(false);
+  };
+
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={s.container}>
-        <Image source={{uri: 'https://reactjs.org/logo-og.png'}}
-       style={s.avatar} />
-        <Text style={s.text}>Регистрация</Text>
-        <KeyboardAvoidingView
-          behavior={Platform.OS == "ios" ? "padding" : "height"}
-        >
-          <TextInput
-            value={login}
-            onChangeText={loginHandler}
-            placeholder="Логин"
-            style={s.input}
+    <TouchableWithoutFeedback onPress={dismissKeyboard}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS == "ios" ? "padding" : "height"}
+      >
+        <View style={s.container}>
+          <Image
+            source={{ uri: "https://reactjs.org/logo-og.png" }}
+            style={s.avatar}
           />
-          <TextInput
-            value={email}
-            onChangeText={emailHandler}
-            placeholder="Адрес электронной почты"
-            style={s.input}
-          />
-          <TextInput
-            value={password}
-            onChangeText={passwordHandler}
-            placeholder="Пароль"
-            secureTextEntry={true}
-            style={s.input}
-          />
-
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={s.button}
-            onPress={onRegistration}
+          <Text style={s.text}>Регистрация</Text>
+          <KeyboardAvoidingView
+            behavior={Platform.OS == "ios" ? "padding" : "height"}
           >
-            <Text style={s.btnTitle}>Зарегистрироваться</Text>
-          </TouchableOpacity>
+            <TextInput
+              value={login}
+              onChangeText={loginHandler}
+              placeholder="Логин"
+              style={s.input}
+              onFocus={() => setIsShowKeyboard(true)}
+            />
+            <TextInput
+              value={email}
+              onChangeText={emailHandler}
+              placeholder="Адрес электронной почты"
+              style={s.input}
+              onFocus={() => setIsShowKeyboard(true)}
+            />
+            <TextInput
+              value={password}
+              onChangeText={passwordHandler}
+              placeholder="Пароль"
+              secureTextEntry={true}
+              style={s.input}
+              onFocus={() => setIsShowKeyboard(true)}
+            />
 
-          <View style={s.loginView}>
-            <Text style={s.loginText}>
-              Уже есть аккаунт?
-              <TouchableOpacity
-                activeOpacity={0.8}
-                style={s.loginButton}
-                onPress={onRegistration}
-              >
-                <Text style={s.loginButton}>Войти</Text>
-              </TouchableOpacity>
-            </Text>
-          </View>
-        </KeyboardAvoidingView>
-      </View>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={s.button}
+              onPress={onRegistration}
+            >
+              <Text style={s.btnTitle}>Зарегистрироваться</Text>
+            </TouchableOpacity>
+
+            <View
+              style={{ ...s.loginView, marginBottom: isShowKeyboard ? 10 : 78 }}
+            >
+              <Text style={s.loginText}>
+                Уже есть аккаунт?
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  style={s.loginButton}
+                  onPress={onRegistration}
+                >
+                  <Text style={s.loginButton}>Войти</Text>
+                </TouchableOpacity>
+              </Text>
+            </View>
+          </KeyboardAvoidingView>
+        </View>
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 };
@@ -88,7 +108,6 @@ const s = StyleSheet.create({
     borderTopEndRadius: 50,
     backgroundColor: "#fff",
     alignItems: "center",
-    
   },
   avatar: {
     width: 120,
@@ -136,7 +155,7 @@ const s = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 16,
-    marginBottom: 78,
+    // marginBottom: 78,
   },
   loginText: {
     fontSize: 18,
