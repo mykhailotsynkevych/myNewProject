@@ -176,8 +176,8 @@ const RegistrationForm = () => {
 
 const s = StyleSheet.create({
   container: {
-    borderTopStartRadius: 50,
-    borderTopEndRadius: 50,
+    borderTopStartRadius: 25,
+    borderTopEndRadius: 25,
     backgroundColor: "#fff",
     alignItems: "center",
   },
