@@ -26,7 +26,7 @@ const s = StyleSheet.create({
   image: {
     flex: 1,
     resizeMode: "cover",
-justifyContent: "flex-end",
+    justifyContent: "flex-end",
   },
 });
 
