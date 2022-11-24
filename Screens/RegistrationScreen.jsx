@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ImageBackground } from "react-native";
 
 import RegistrationForm from "../components/RegistrtationForm";
 
-const RegistrationScreen = () => {
+const RegistrationScreen = ({ navigation }) => {
   return (
     <View style={s.container}>
       <ImageBackground
@@ -11,7 +11,7 @@ const RegistrationScreen = () => {
         source={require("../assets/images/bg-image.jpg")}
       >
         
-      <RegistrationForm />
+      <RegistrationForm navigation={ navigation }/>
       </ImageBackground>
     </View>
   );

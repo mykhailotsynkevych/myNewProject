@@ -21,7 +21,7 @@ const initialState = {
   password: "",
 };
 
-const LoginForm = () => {
+const LoginForm = ({ navigation }) => {
   const [state, setstate] = useState(initialState);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [dimensions, setdimensions] = useState(
@@ -67,6 +67,7 @@ const LoginForm = () => {
 
     console.log(state);
     setstate(initialState);
+    navigation.navigate("RegistrationScreen");
   };
 
   const dismissKeyboard = () => {

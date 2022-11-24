@@ -33,7 +33,7 @@ const initialState = {
 //   });
 // };
 
-const RegistrationForm = () => {
+const RegistrationForm = ({ navigation }) => {
   const [state, setstate] = useState(initialState);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   // const [isReady, setIsReady] = useState(false);
@@ -83,6 +83,7 @@ const RegistrationForm = () => {
 
     console.log(state);
     setstate(initialState);
+    navigation.navigate("LoginScreen");
   };
 
   const dismissKeyboard = () => {
