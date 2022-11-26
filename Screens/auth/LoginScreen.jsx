@@ -1,17 +1,16 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, ImageBackground } from "react-native";
 
-import RegistrationForm from "../components/RegistrtationForm";
+import LoginForm from "../../components/LoginForm";
 
-const RegistrationScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation }) => {
   return (
     <View style={s.container}>
       <ImageBackground
         style={s.image}
-        source={require("../assets/images/bg-image.jpg")}
+        source={require("../../assets/images/bg-image.jpg")}
       >
-        
-      <RegistrationForm navigation={ navigation }/>
+        <LoginForm navigation={navigation} />
       </ImageBackground>
     </View>
   );
@@ -21,7 +20,6 @@ const s = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-        
   },
   image: {
     flex: 1,
@@ -30,4 +28,4 @@ const s = StyleSheet.create({
   },
 });
 
-export default RegistrationScreen;
+export default LoginScreen;
