@@ -60,8 +60,17 @@ const LoginForm = ({ navigation }) => {
     return null;
   }
 
-  const onRegistration = () => {
-    Alert.alert("Credentials", `${state.email} + ${state.password}`);
+
+    const onHome = () => {
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
+
+    console.log(state);
+    setstate(initialState);
+    navigation.navigate("Home");
+  };
+
+  const toRegistrationScreen = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
 
@@ -112,7 +121,7 @@ const LoginForm = ({ navigation }) => {
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={s.button}
-                onPress={onRegistration}
+                onPress={onHome}
               >
                 <Text style={s.btnTitle}>Войти</Text>
               </TouchableOpacity>
@@ -123,7 +132,7 @@ const LoginForm = ({ navigation }) => {
                   <TouchableOpacity
                     activeOpacity={0.8}
                     style={s.loginButton}
-                    onPress={onRegistration}
+                    onPress={toRegistrationScreen}
                   >
                     <Text style={s.loginButton}>Зарегистрироваться</Text>
                   </TouchableOpacity>

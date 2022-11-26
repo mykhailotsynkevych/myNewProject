@@ -4,10 +4,7 @@ import { StyleSheet, Text, View, ImageBackground } from "react-native";
 const CommentsPostsScreen = () => {
   return (
     <View style={s.container}>
-      <ImageBackground
-        style={s.image}
-        source={require("../assets/images/bg-image.jpg")}
-      ></ImageBackground>
+      <Text>Создать публикацию</Text>
     </View>
   );
 };
@@ -15,12 +12,8 @@ const CommentsPostsScreen = () => {
 const s = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-  },
-  image: {
-    flex: 1,
-    resizeMode: "cover",
-    justifyContent: "flex-end",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
