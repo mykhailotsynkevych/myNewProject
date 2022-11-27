@@ -13,9 +13,6 @@ import {
   Dimensions,
 } from "react-native";
 
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
-
 const initialState = {
   email: "",
   password: "",
@@ -28,17 +25,7 @@ const LoginForm = ({ navigation }) => {
     Dimensions.get("window").width - 16 * 2
   );
 
-  const [fontsLoaded] = useFonts({
-    "Roboto-Medium": require("../assets/fonts/Roboto-Medium.ttf"),
-    "Roboto-Regular": require("../assets/fonts/Roboto-Regular.ttf"),
-  });
-
   useEffect(() => {
-    async function prepare() {
-      await SplashScreen.preventAutoHideAsync();
-    }
-    prepare();
-
     const onChange = () => {
       const width = Dimensions.get("window").width - 16 * 2;
 
@@ -50,18 +37,7 @@ const LoginForm = ({ navigation }) => {
     // };
   }, []);
 
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) {
-    return null;
-  }
-
-
-    const onHome = () => {
+  const onHome = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
 
@@ -89,56 +65,56 @@ const LoginForm = ({ navigation }) => {
       <KeyboardAvoidingView
         behavior={Platform.OS == "ios" ? "padding" : "height"}
       >
-        <View style={s.container} onLayout={onLayoutRootView}>
+        <View style={s.container}>
           <Text style={s.title}>Войти</Text>
-            <View
-              style={{
-                ...s.form,
-                marginBottom: isShowKeyboard ? 10 : 144,
-                width: dimensions,
-              }}
+          <View
+            style={{
+              ...s.form,
+              marginBottom: isShowKeyboard ? 10 : 144,
+              width: dimensions,
+            }}
+          >
+            <TextInput
+              value={state.email}
+              onChangeText={(value) =>
+                setstate((prevState) => ({ ...prevState, email: value }))
+              }
+              placeholder="Адрес электронной почты"
+              style={s.input}
+              onFocus={() => setIsShowKeyboard(true)}
+            />
+            <TextInput
+              value={state.password}
+              onChangeText={(value) =>
+                setstate((prevState) => ({ ...prevState, password: value }))
+              }
+              placeholder="Пароль"
+              secureTextEntry={true}
+              style={s.input}
+              onFocus={() => setIsShowKeyboard(true)}
+            />
+
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={s.button}
+              onPress={onHome}
             >
-              <TextInput
-                value={state.email}
-                onChangeText={(value) =>
-                  setstate((prevState) => ({ ...prevState, email: value }))
-                }
-                placeholder="Адрес электронной почты"
-              style={s.input}
-              onFocus={() => setIsShowKeyboard(true)}
-              />
-              <TextInput
-                value={state.password}
-                onChangeText={(value) =>
-                  setstate((prevState) => ({ ...prevState, password: value }))
-                }
-                placeholder="Пароль"
-                secureTextEntry={true}
-              style={s.input}
-              onFocus={() => setIsShowKeyboard(true)}
-              />
+              <Text style={s.btnTitle}>Войти</Text>
+            </TouchableOpacity>
 
-              <TouchableOpacity
-                activeOpacity={0.8}
-                style={s.button}
-                onPress={onHome}
-              >
-                <Text style={s.btnTitle}>Войти</Text>
-              </TouchableOpacity>
-
-              <View style={s.loginView}>
-                <Text style={s.loginText}>
-                  Нет аккаунта?
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    style={s.loginButton}
-                    onPress={toRegistrationScreen}
-                  >
-                    <Text style={s.loginButton}>Зарегистрироваться</Text>
-                  </TouchableOpacity>
-                </Text>
-              </View>
+            <View style={s.loginView}>
+              <Text style={s.loginText}>
+                Нет аккаунта?
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  style={s.loginButton}
+                  onPress={toRegistrationScreen}
+                >
+                  <Text style={s.loginButton}>Зарегистрироваться</Text>
+                </TouchableOpacity>
+              </Text>
             </View>
+          </View>
         </View>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
@@ -192,7 +168,6 @@ const s = StyleSheet.create({
   },
   loginView: {
     alignItems: "center",
-    
   },
   loginText: {
     fontFamily: "Roboto-Regular",

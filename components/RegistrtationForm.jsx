@@ -1,6 +1,3 @@
-// import * as Font from "expo-font";
-// import { AppLoading } from "expo";
-
 import React, { useState, useEffect, useCallback } from "react";
 import {
   StyleSheet,
@@ -17,41 +14,20 @@ import {
   Dimensions,
 } from "react-native";
 
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
-
 const initialState = {
   login: "",
   email: "",
   password: "",
 };
 
-// const loadFonts = async () => {
-//   await Font.loadAsync({
-//       'Roboto-Medium': require('../assets/fonts/Roboto-Medium.ttf'),
-//       'Roboto-Regular': require('../assets/fonts/Roboto-Regular.ttf'),
-//   });
-// };
-
 const RegistrationForm = ({ navigation }) => {
   const [state, setstate] = useState(initialState);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
-  // const [isReady, setIsReady] = useState(false);
   const [dimensions, setdimensions] = useState(
     Dimensions.get("window").width - 16 * 2
   );
 
-  const [fontsLoaded] = useFonts({
-    "Roboto-Medium": require("../assets/fonts/Roboto-Medium.ttf"),
-    "Roboto-Regular": require("../assets/fonts/Roboto-Regular.ttf"),
-  });
-
   useEffect(() => {
-    async function prepare() {
-      await SplashScreen.preventAutoHideAsync();
-    }
-    prepare();
-
     const onChange = () => {
       const width = Dimensions.get("window").width - 16 * 2;
 
@@ -63,17 +39,7 @@ const RegistrationForm = ({ navigation }) => {
     // };
   }, []);
 
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) {
-    return null;
-  }
-
-      const onHome = () => {
+  const onHome = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
 
@@ -96,16 +62,12 @@ const RegistrationForm = ({ navigation }) => {
     setIsShowKeyboard(false);
   };
 
-  //   if (!isReady) {
-  //     return <AppLoading startAsync={loadFonts} onFinish={() => setIsReady(true)}/>
-  // }
-
   return (
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <KeyboardAvoidingView
         behavior={Platform.OS == "ios" ? "padding" : "height"}
       >
-        <View style={s.container} onLayout={onLayoutRootView}>
+        <View style={s.container}>
           <Image
             source={{ uri: "https://reactjs.org/logo-og.png" }}
             style={s.avatar}
@@ -215,7 +177,6 @@ const s = StyleSheet.create({
     backgroundColor: "#F6F6F6",
     borderRadius: 8,
     color: "#BDBDBD",
-    
   },
   button: {
     backgroundColor: "#FF6C00",

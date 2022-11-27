@@ -1,28 +1,41 @@
-import { View, Button } from "react-native";
+import React, { useState, useEffect, useCallback } from "react";
+import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import RegistrationScreen from "./Screens/auth/RegistrationScreen";
-import LoginScreen from "./Screens/auth/LoginScreen";
-import Home from "./Screens/Home";
+import { useRoute } from "./router";
 
-const MainStack = createStackNavigator();
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 
 export default function App() {
-  return (
-    <NavigationContainer>
-      <MainStack.Navigator
-        initialRouteName="LoginScreen"
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <MainStack.Screen
-          name="RegistrationScreen"
-          component={RegistrationScreen}
-        />
-        <MainStack.Screen name="LoginScreen" component={LoginScreen} />
-        <MainStack.Screen name="Home" component={Home} />
-      </MainStack.Navigator>
-    </NavigationContainer>
-  );
+  const [isReady, setIsReady] = useState(false);
+  const routing = useRoute(false);
+
+  const [fontsLoaded] = useFonts({
+    "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
+    "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
+  });
+
+  useEffect(() => {
+    async function prepare() {
+      await SplashScreen.preventAutoHideAsync();
+    }
+    prepare();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+      setIsReady(true);
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
+  if (!isReady) {
+    return <View onLayout={onLayoutRootView}></View>;
+  }
+
+  return <NavigationContainer>{routing}</NavigationContainer>;
 }
