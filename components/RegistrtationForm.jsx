@@ -14,6 +14,8 @@ import {
   Dimensions,
 } from "react-native";
 
+import { EvilIcons } from '@expo/vector-icons';
+
 const initialState = {
   login: "",
   email: "",
@@ -68,10 +70,13 @@ const RegistrationForm = ({ navigation }) => {
         behavior={Platform.OS == "ios" ? "padding" : "height"}
       >
         <View style={s.container}>
-          <Image
+          <View style={s.avatarContainer}>
+          {/* <Image
             source={{ uri: "https://reactjs.org/logo-og.png" }}
             style={s.avatar}
-          />
+            /> */}
+            <EvilIcons name="plus" size={38} color="#FF6C00" style={s.avatarPlusIcon}/>
+            </View>
           <Text style={s.title}>Регистрация</Text>
           <View
             style={{
@@ -149,12 +154,26 @@ const s = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
   },
+  avatarContainer: {
+        width: 120,
+    height: 120,
+    borderRadius: 16,
+    marginBottom: 32,
+    marginTop: -60,
+    backgroundColor: "#F6F6F6",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+  },
   avatar: {
     width: 120,
     height: 120,
     borderRadius: 16,
     marginBottom: 32,
     marginTop: -60,
+  },
+  avatarPlusIcon: {
+    marginBottom: 12,
+    marginRight: -18,
   },
   title: {
     fontFamily: "Roboto-Medium",

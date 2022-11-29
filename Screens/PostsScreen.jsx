@@ -1,7 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, ImageBackground } from "react-native";
 
-const PostsScreen = () => {
+const PostsScreen = ({ route }) => {
+console.log("route.params", route.params);
   return (
     <View style={s.container}>
       <Text>Публикации</Text>

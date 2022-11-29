@@ -18,6 +18,7 @@ import {
   MaterialIcons,
   AntDesign,
   Feather,
+  EvilIcons,
 } from "@expo/vector-icons";
 
 const initialState = {
@@ -26,13 +27,12 @@ const initialState = {
   location: "",
 };
 
-const CreatePostsScreen = () => {
+const CreatePostsScreen = ({ navigation }) => {
+  const [state, setstate] = useState(initialState);
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [cameraRef, setCameraRef] = useState(null);
-  const [photo, setPhoto] = useState(initialState.photo);
 
-  const [state, setstate] = useState(initialState);
   const [cameraOn, setcameraOn] = useState(false);
 
   function toggleCameraType() {
@@ -48,19 +48,26 @@ const CreatePostsScreen = () => {
     return <Text>No access to camera</Text>;
   }
 
+  const btnPublicate = () => {
+    // console.log("navigation", navigation);
+    navigation.navigate("PostsScreen", {state});
+  };
+
   return (
     <View style={styles.container}>
       {!cameraOn && (
         <View>
           <View style={styles.fotoContainer}>
-            {photo && <Image source={{ uri: photo }} style={styles.photo} />}
+            {state.photo && (
+              <Image source={{ uri: state.photo }} style={styles.photo} />
+            )}
           </View>
 
           <View style={styles.iconConatiner}>
             <TouchableOpacity
               activeOpacity={0.8}
               // style={styles.toggleCamera}
-              onPress={toggleCameraType}
+              // onPress={toggleCameraType}
             >
               <MaterialIcons name="photo-library" size={28} color="#ACB3BF" />
             </TouchableOpacity>
@@ -75,43 +82,62 @@ const CreatePostsScreen = () => {
             </TouchableOpacity>
           </View>
 
-
           <View style={styles.form}>
             <TextInput
               value={state.name}
-              // onChangeText={(value) =>
-              //   setstate((prevState) => ({ ...prevState, email: value }))
-              // }
+              onChangeText={(value) =>
+                setstate((prevState) => ({ ...prevState, name: value }))
+              }
               placeholder="Название..."
               style={styles.input}
               // onFocus={() => setIsShowKeyboard(true)}
             />
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.iconLocation}
+              // onPress={toggleCameraType}
+            >
+              <EvilIcons name="location" size={35} color="#BDBDBD" />
+            </TouchableOpacity>
             <TextInput
               value={state.location}
-              // onChangeText={(value) =>
-              //   setstate((prevState) => ({ ...prevState, location: value }))
-              // }
+              onChangeText={(value) =>
+                setstate((prevState) => ({ ...prevState, location: value }))
+              }
               placeholder="Местность..."
- 
-              style={styles.input}
+              style={styles.inputLocation}
               // onFocus={() => setIsShowKeyboard(true)}
             />
 
+            {state.photo === null ||
+            state.location === "" ||
+            state.location === "" ? (
+              <TouchableOpacity
+                // enabled={false}
+                activeOpacity={0.8}
+                style={styles.button}
+                // onPress={btnPublicate}
+              >
+                <Text style={styles.btnTitle}>Опубликовать</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity
+                // enabled={false}
+                activeOpacity={0.8}
+                style={styles.activeButton}
+                onPress={btnPublicate}
+              >
+                <Text style={styles.activeBtnTitle}>Опубликовать</Text>
+              </TouchableOpacity>
+            )}
+
             <TouchableOpacity
               activeOpacity={0.8}
-              style={styles.button}
-              // onPress={onHome}
-            >
-              <Text style={styles.btnTitle}>Опубликовать</Text>
-            </TouchableOpacity>
-                        <TouchableOpacity
-              activeOpacity={0.8}
-              // style={styles.toggleCamera}
+              style={styles.deleteIcon}
               onPress={() => {
-                setcameraOn(true);
+                setstate(initialState);
               }}
             >
-
               <AntDesign name="delete" size={28} color="#ACB3BF" />
             </TouchableOpacity>
           </View>
@@ -132,7 +158,8 @@ const CreatePostsScreen = () => {
                 if (cameraRef) {
                   const { uri } = await cameraRef.takePictureAsync();
                   // console.log(uri)
-                  setPhoto(uri);
+                  // setPhoto(uri);
+                  setstate((prevState) => ({ ...prevState, photo: uri }));
                   setcameraOn(false);
                   await MediaLibrary.createAssetAsync(uri);
                 }
@@ -226,7 +253,8 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto-Regular",
     fontSize: 18,
     height: 50,
-    padding: 10,
+    paddingLeft: 3,
+    // padding: 10,
     // borderWidth: 1,
     borderBottomWidth: 1,
     borderColor: "#E8E8E8",
@@ -235,11 +263,36 @@ const styles = StyleSheet.create({
     // borderRadius: 8,
     color: "#BDBDBD",
   },
+  inputLocation: {
+    fontFamily: "Roboto-Regular",
+    fontSize: 18,
+    height: 50,
+    // padding: 10,
+    paddingLeft: 35,
+    borderBottomWidth: 1,
+    borderColor: "#E8E8E8",
+    marginBottom: 16,
+    color: "#BDBDBD",
+  },
+  iconLocation: {
+    marginBottom: -40,
+    marginLeft: -5,
+  },
   button: {
     backgroundColor: "#F6F6F6",
     borderRadius: 100,
-    marginTop: 27,
-    marginBottom: 16,
+    // marginTop: 10,
+    // marginBottom: 16,
+    paddingTop: 16,
+    paddingBottom: 16,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  activeButton: {
+    backgroundColor: "#FF6C00",
+    borderRadius: 100,
+    // marginTop: 10,
+    // marginBottom: 16,
     paddingTop: 16,
     paddingBottom: 16,
     justifyContent: "center",
@@ -248,6 +301,14 @@ const styles = StyleSheet.create({
   btnTitle: {
     color: "#BDBDBD",
     fontSize: 18,
+  },
+  activeBtnTitle: {
+    color: "#fff",
+    fontSize: 18,
+  },
+  deleteIcon: {
+    marginTop: 55,
+    alignSelf: "center",
   },
 });
 
