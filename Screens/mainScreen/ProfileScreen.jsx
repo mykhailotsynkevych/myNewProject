@@ -6,10 +6,10 @@ const ProfileScreen = () => {
     <View style={s.container}>
             <ImageBackground
         style={s.image}
-        source={require("../assets/images/bg-image.jpg")}
+        source={require("../../assets/images/bg-image.jpg")}
       >
-      {/* <Text>Профиль</Text> */}
       </ImageBackground>
+      {/* <Text>Профиль</Text> */}
 
     </View>
   );

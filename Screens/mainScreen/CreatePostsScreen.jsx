@@ -50,7 +50,7 @@ const CreatePostsScreen = ({ navigation }) => {
 
   const btnPublicate = () => {
     // console.log("navigation", navigation);
-    navigation.navigate("PostsScreen", {state});
+    navigation.navigate("Публикации", {state});
   };
 
   return (
