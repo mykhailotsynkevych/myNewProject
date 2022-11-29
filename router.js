@@ -18,10 +18,11 @@ import ProfileScreen from "./Screens/mainScreen/ProfileScreen";
 const AuthStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-export const useRoute = () => {
-  const [isAuth, setIsAuth] = useState(true);
+export const useRoute = (isAuth=true) => {
+  // const [isAuth, setIsAuth] = useState(true);
   const toLoginScreen = () => {
-    setIsAuth(false);
+    // setIsAuth(false);
+    isAuth=false
   };
 
   if (!isAuth) {
