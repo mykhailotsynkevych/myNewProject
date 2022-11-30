@@ -10,6 +10,7 @@ import {
   TextInput,
 } from "react-native";
 import * as MediaLibrary from "expo-media-library";
+import * as Location from "expo-location";
 
 import {
   Ionicons,
@@ -25,6 +26,7 @@ const initialState = {
   photo: null,
   name: "",
   location: "",
+  coordinate: {}
 };
 
 const CreatePostsScreen = ({ navigation }) => {
@@ -33,13 +35,27 @@ const CreatePostsScreen = ({ navigation }) => {
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [cameraRef, setCameraRef] = useState(null);
 
-  const [cameraOn, setcameraOn] = useState(false);
+  const [cameraOn, setCameraOn] = useState(true);
 
   function toggleCameraType() {
     setType((current) =>
       current === CameraType.back ? CameraType.front : CameraType.back
     );
   }
+
+  const takeLocationCoordiante = async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Permission to access location was denied");
+      }
+    const location = await Location.getCurrentPositionAsync();
+          const coords = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      };
+
+      setstate((prevState) => ({ ...prevState, coordinate: coords}));
+  };
 
   if (!permission) {
     return <View />;
@@ -50,7 +66,8 @@ const CreatePostsScreen = ({ navigation }) => {
 
   const btnPublicate = () => {
     // console.log("navigation", navigation);
-    navigation.navigate("Публикации", {state});
+    navigation.navigate("DefaultScreen", state);
+    takeLocationCoordiante();
   };
 
   return (
@@ -64,21 +81,21 @@ const CreatePostsScreen = ({ navigation }) => {
           </View>
 
           <View style={styles.iconConatiner}>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               activeOpacity={0.8}
               // style={styles.toggleCamera}
-              // onPress={toggleCameraType}
+              onPress={takeLocationCoordiante }
             >
               <MaterialIcons name="photo-library" size={28} color="#ACB3BF" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               activeOpacity={0.8}
               // style={styles.toggleCamera}
               onPress={() => {
-                setcameraOn(true);
+                setCameraOn(true);
               }}
             >
-              <Feather name="camera" size={28} color="#ACB3BF" />
+              <Feather name="camera" size={32} color="#ACB3BF" />
             </TouchableOpacity>
           </View>
 
@@ -92,13 +109,13 @@ const CreatePostsScreen = ({ navigation }) => {
               style={styles.input}
               // onFocus={() => setIsShowKeyboard(true)}
             />
-            <TouchableOpacity
+            {/* <TouchableOpacity
               activeOpacity={0.8}
               style={styles.iconLocation}
-              // onPress={toggleCameraType}
-            >
-              <EvilIcons name="location" size={35} color="#BDBDBD" />
-            </TouchableOpacity>
+              onPress={takeLocationCoordiante}
+            > */}
+              <EvilIcons style={styles.iconLocation} name="location" size={35} color="#BDBDBD" />
+            {/* </TouchableOpacity> */}
             <TextInput
               value={state.location}
               onChangeText={(value) =>
@@ -136,6 +153,7 @@ const CreatePostsScreen = ({ navigation }) => {
               style={styles.deleteIcon}
               onPress={() => {
                 setstate(initialState);
+                setCameraOn(true);
               }}
             >
               <AntDesign name="delete" size={28} color="#ACB3BF" />
@@ -143,8 +161,7 @@ const CreatePostsScreen = ({ navigation }) => {
           </View>
         </View>
       )}
-      {cameraOn && (
-        <Camera
+        {cameraOn && (<Camera
           style={styles.camera}
           type={type}
           ref={(ref) => {
@@ -160,7 +177,7 @@ const CreatePostsScreen = ({ navigation }) => {
                   // console.log(uri)
                   // setPhoto(uri);
                   setstate((prevState) => ({ ...prevState, photo: uri }));
-                  setcameraOn(false);
+                  setCameraOn(false);
                   await MediaLibrary.createAssetAsync(uri);
                 }
               }}
@@ -181,8 +198,8 @@ const CreatePostsScreen = ({ navigation }) => {
               />
             </TouchableOpacity>
           </View>
-        </Camera>
-      )}
+      </Camera>
+         )}
     </View>
   );
 };
@@ -200,8 +217,8 @@ const styles = StyleSheet.create({
   },
   iconConatiner: {
     alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-around",
+    // flexDirection: "row",
+    // justifyContent: "space-between",
   },
 
   photoView: {
@@ -213,7 +230,8 @@ const styles = StyleSheet.create({
   },
 
   // toggleCamera: {
-  //   alignSelf: "flex-end",
+  //   position: "absolute",
+  //   // alignSelf: "center",
   // },
 
   takePhotoButton: {

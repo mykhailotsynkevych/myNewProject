@@ -9,7 +9,7 @@ import { Ionicons, MaterialIcons, Feather } from "@expo/vector-icons";
 
 import RegistrationScreen from "./Screens/auth/RegistrationScreen";
 import LoginScreen from "./Screens/auth/LoginScreen";
-// import Home from "./Screens/Home";
+// import MapScreen from "./Screens/MapScreen";
 
 import PostsScreen from "./Screens/mainScreen/PostsScreen";
 import CreatePostsScreen from "./Screens/mainScreen/CreatePostsScreen";
@@ -18,11 +18,11 @@ import ProfileScreen from "./Screens/mainScreen/ProfileScreen";
 const AuthStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-export const useRoute = (isAuth=true) => {
-  // const [isAuth, setIsAuth] = useState(true);
+export const useRoute = () => {
+  const [isAuth, setIsAuth] = useState(true);
   const toLoginScreen = () => {
-    // setIsAuth(false);
-    isAuth=false
+    setIsAuth(false);
+    // isAuth=false
   };
 
   if (!isAuth) {
@@ -38,7 +38,7 @@ export const useRoute = (isAuth=true) => {
           component={RegistrationScreen}
         />
         <AuthStack.Screen name="LoginScreen" component={LoginScreen} />
-        {/* <AuthStack.Screen name="Home" component={Home} /> */}
+        {/* <AuthStack.Screen name="MapScreen" component={MapScreen} /> */}
       </AuthStack.Navigator>
     );
   }

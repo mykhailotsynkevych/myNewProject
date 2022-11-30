@@ -43,7 +43,7 @@ const LoginForm = ({ navigation }) => {
 
     console.log(state);
     setstate(initialState);
-    navigation.navigate("Home");
+    // navigation.navigate("Публикации");
   };
 
   const toRegistrationScreen = () => {
