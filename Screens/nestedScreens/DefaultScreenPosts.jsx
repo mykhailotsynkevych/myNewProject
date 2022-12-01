@@ -13,10 +13,8 @@ import { EvilIcons, Feather } from "@expo/vector-icons";
 
 const DefaultPostsScreen = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
-  // console.log("route.params", route.params);
 
   const toMap = () => {
-    // console.log("navigation", navigation);
     navigation.navigate("Публикации", state);
   };
 

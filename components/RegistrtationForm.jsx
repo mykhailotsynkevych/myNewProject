@@ -14,7 +14,10 @@ import {
   Dimensions,
 } from "react-native";
 
-import { EvilIcons } from '@expo/vector-icons';
+import { EvilIcons } from "@expo/vector-icons";
+
+import { authSignUpUser } from "../redux/auth/authOperations";
+import { useDispatch } from "react-redux";
 
 const initialState = {
   login: "",
@@ -29,6 +32,8 @@ const RegistrationForm = ({ navigation }) => {
     Dimensions.get("window").width - 16 * 2
   );
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const onChange = () => {
       const width = Dimensions.get("window").width - 16 * 2;
@@ -36,18 +41,15 @@ const RegistrationForm = ({ navigation }) => {
       setdimensions(width);
     };
     Dimensions.addEventListener("change", onChange);
-    // return () => {
-    //   Dimensions.remove("change", onChange);
-    // };
   }, []);
 
-  const onHome = () => {
+  const handleSubmit = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
 
-    console.log(state);
+    // console.log(state);
+    dispatch(authSignUpUser(state));
     setstate(initialState);
-    // navigation.navigate("Публикации");
   };
 
   const toLoginScreen = () => {
@@ -71,12 +73,13 @@ const RegistrationForm = ({ navigation }) => {
       >
         <View style={s.container}>
           <View style={s.avatarContainer}>
-          {/* <Image
-            source={{ uri: "https://reactjs.org/logo-og.png" }}
-            style={s.avatar}
-            /> */}
-            <EvilIcons name="plus" size={38} color="#FF6C00" style={s.avatarPlusIcon}/>
-            </View>
+            <EvilIcons
+              name="plus"
+              size={38}
+              color="#FF6C00"
+              style={s.avatarPlusIcon}
+            />
+          </View>
           <Text style={s.title}>Регистрация</Text>
           <View
             style={{
@@ -117,7 +120,7 @@ const RegistrationForm = ({ navigation }) => {
             <TouchableOpacity
               activeOpacity={0.8}
               style={s.button}
-              onPress={onHome}
+              onPress={handleSubmit}
             >
               <Text style={s.btnTitle}>Зарегистрироваться</Text>
             </TouchableOpacity>
@@ -155,7 +158,7 @@ const s = StyleSheet.create({
     alignItems: "center",
   },
   avatarContainer: {
-        width: 120,
+    width: 120,
     height: 120,
     borderRadius: 16,
     marginBottom: 32,

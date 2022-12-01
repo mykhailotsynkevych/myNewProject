@@ -3,12 +3,21 @@ import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { useRoute } from "./router";
 
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
+
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
+import { auth } from "./firebase/config";
+
 export default function App() {
   const [isReady, setIsReady] = useState(false);
-  const routing = useRoute(true);
+  const [user, setUser] = useState(null);
+  auth.onAuthStateChanged((user) => setUser(user));
+
+  const routing = useRoute(false);
+  // console.log(user)
 
   const [fontsLoaded] = useFonts({
     "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"),
@@ -37,5 +46,9 @@ export default function App() {
     return <View onLayout={onLayoutRootView}></View>;
   }
 
-  return <NavigationContainer>{routing}</NavigationContainer>;
+  return (
+    <Provider store={store}>
+      <NavigationContainer>{routing}</NavigationContainer>
+    </Provider>
+  );
 }

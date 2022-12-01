@@ -3,11 +3,11 @@ import {
   View,
   Text,
   StyleSheet,
-  Dimensions,
   ImageBackground,
 } from "react-native";
 
 import { AntDesign } from '@expo/vector-icons';
+// console.log("Hi123")
 
 const ProfileScreen = ({ route, navigation }) => {
 
@@ -19,10 +19,6 @@ const ProfileScreen = ({ route, navigation }) => {
       >
                 <View style={styles.profil}>
           <View style={styles.avatarContainer}>
-          {/* <Image
-            source={{ uri: "https://reactjs.org/logo-og.png" }}
-            style={s.avatar}
-            /> */}
             <AntDesign name="closecircleo" size={28} color="black" style={styles.avatarPlusIcon}/>
             </View>
           <Text style={styles.title}>Natali Romanova</Text>

@@ -14,9 +14,6 @@ import * as Location from "expo-location";
 
 import {
   Ionicons,
-  MaterialCommunityIcons,
-  FontAwesome5,
-  MaterialIcons,
   AntDesign,
   Feather,
   EvilIcons,
@@ -81,16 +78,8 @@ const CreatePostsScreen = ({ navigation }) => {
           </View>
 
           <View style={styles.iconConatiner}>
-            {/* <TouchableOpacity
-              activeOpacity={0.8}
-              // style={styles.toggleCamera}
-              onPress={takeLocationCoordiante }
-            >
-              <MaterialIcons name="photo-library" size={28} color="#ACB3BF" />
-            </TouchableOpacity> */}
             <TouchableOpacity
               activeOpacity={0.8}
-              // style={styles.toggleCamera}
               onPress={() => {
                 setCameraOn(true);
               }}
@@ -107,15 +96,8 @@ const CreatePostsScreen = ({ navigation }) => {
               }
               placeholder="Название..."
               style={styles.input}
-              // onFocus={() => setIsShowKeyboard(true)}
             />
-            {/* <TouchableOpacity
-              activeOpacity={0.8}
-              style={styles.iconLocation}
-              onPress={takeLocationCoordiante}
-            > */}
               <EvilIcons style={styles.iconLocation} name="location" size={35} color="#BDBDBD" />
-            {/* </TouchableOpacity> */}
             <TextInput
               value={state.location}
               onChangeText={(value) =>
@@ -123,23 +105,20 @@ const CreatePostsScreen = ({ navigation }) => {
               }
               placeholder="Местность..."
               style={styles.inputLocation}
-              // onFocus={() => setIsShowKeyboard(true)}
             />
 
             {state.photo === null ||
             state.location === "" ||
             state.location === "" ? (
               <TouchableOpacity
-                // enabled={false}
                 activeOpacity={0.8}
                 style={styles.button}
-                // onPress={btnPublicate}
+
               >
                 <Text style={styles.btnTitle}>Опубликовать</Text>
               </TouchableOpacity>
             ) : (
               <TouchableOpacity
-                // enabled={false}
                 activeOpacity={0.8}
                 style={styles.activeButton}
                 onPress={btnPublicate}
@@ -174,8 +153,6 @@ const CreatePostsScreen = ({ navigation }) => {
               onPress={async () => {
                 if (cameraRef) {
                   const { uri } = await cameraRef.takePictureAsync();
-                  // console.log(uri)
-                  // setPhoto(uri);
                   setstate((prevState) => ({ ...prevState, photo: uri }));
                   setCameraOn(false);
                   await MediaLibrary.createAssetAsync(uri);
@@ -217,8 +194,6 @@ const styles = StyleSheet.create({
   },
   iconConatiner: {
     alignItems: "center",
-    // flexDirection: "row",
-    // justifyContent: "space-between",
   },
 
   photoView: {
@@ -228,11 +203,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     margin: 15,
   },
-
-  // toggleCamera: {
-  //   position: "absolute",
-  //   // alignSelf: "center",
-  // },
 
   takePhotoButton: {
     marginRight: 115,
@@ -272,20 +242,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     height: 50,
     paddingLeft: 3,
-    // padding: 10,
-    // borderWidth: 1,
     borderBottomWidth: 1,
     borderColor: "#E8E8E8",
     marginBottom: 16,
-    // backgroundColor: "#F6F6F6",
-    // borderRadius: 8,
     color: "#BDBDBD",
   },
   inputLocation: {
     fontFamily: "Roboto-Regular",
     fontSize: 18,
     height: 50,
-    // padding: 10,
     paddingLeft: 35,
     borderBottomWidth: 1,
     borderColor: "#E8E8E8",
@@ -299,8 +264,6 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#F6F6F6",
     borderRadius: 100,
-    // marginTop: 10,
-    // marginBottom: 16,
     paddingTop: 16,
     paddingBottom: 16,
     justifyContent: "center",
@@ -309,8 +272,6 @@ const styles = StyleSheet.create({
   activeButton: {
     backgroundColor: "#FF6C00",
     borderRadius: 100,
-    // marginTop: 10,
-    // marginBottom: 16,
     paddingTop: 16,
     paddingBottom: 16,
     justifyContent: "center",

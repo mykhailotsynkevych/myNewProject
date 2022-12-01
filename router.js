@@ -6,7 +6,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { View, Text, StyleSheet, Button, TouchableOpacity } from "react-native";
 import { Ionicons, MaterialIcons, Feather } from "@expo/vector-icons";
 
-
 import RegistrationScreen from "./Screens/auth/RegistrationScreen";
 import LoginScreen from "./Screens/auth/LoginScreen";
 // import MapScreen from "./Screens/MapScreen";
@@ -18,12 +17,7 @@ import ProfileScreen from "./Screens/mainScreen/ProfileScreen";
 const AuthStack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-export const useRoute = () => {
-  const [isAuth, setIsAuth] = useState(true);
-  const toLoginScreen = () => {
-    setIsAuth(false);
-    // isAuth=false
-  };
+export const useRoute = (isAuth) => {
 
   if (!isAuth) {
     return (
@@ -49,7 +43,9 @@ export const useRoute = () => {
         tabBarActiveTintColor: "#FF6C00",
         tabBarShowLabel: false,
         headerRight: () => (
-          <TouchableOpacity activeOpacity={0.8} onPress={toLoginScreen}>
+          <TouchableOpacity activeOpacity={0.8}
+            // onPress={toLoginScreen}
+          >
             <MaterialIcons
               name="logout"
               size={28}

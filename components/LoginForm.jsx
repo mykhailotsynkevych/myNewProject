@@ -13,6 +13,9 @@ import {
   Dimensions,
 } from "react-native";
 
+import { authSignInUser } from "../redux/auth/authOperations";
+import { useDispatch } from "react-redux";
+
 const initialState = {
   email: "",
   password: "",
@@ -25,6 +28,8 @@ const LoginForm = ({ navigation }) => {
     Dimensions.get("window").width - 16 * 2
   );
 
+    const dispatch = useDispatch();
+
   useEffect(() => {
     const onChange = () => {
       const width = Dimensions.get("window").width - 16 * 2;
@@ -32,25 +37,22 @@ const LoginForm = ({ navigation }) => {
       setdimensions(width);
     };
     Dimensions.addEventListener("change", onChange);
-    // return () => {
-    //   Dimensions.remove("change", onChange);
-    // };
   }, []);
 
-  const onHome = () => {
+  const handleSubmit = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
 
-    console.log(state);
+    // console.log(state);
+    dispatch(authSignInUser(state));
     setstate(initialState);
-    // navigation.navigate("Публикации");
   };
 
   const toRegistrationScreen = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
 
-    console.log(state);
+    // console.log(state);
     setstate(initialState);
     navigation.navigate("RegistrationScreen");
   };
@@ -97,7 +99,7 @@ const LoginForm = ({ navigation }) => {
             <TouchableOpacity
               activeOpacity={0.8}
               style={s.button}
-              onPress={onHome}
+              onPress={handleSubmit}
             >
               <Text style={s.btnTitle}>Войти</Text>
             </TouchableOpacity>
