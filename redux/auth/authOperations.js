@@ -1,47 +1,34 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { auth } from "../../firebase/config";
-import { authSlice } from "./authReducer";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
-// {"email": "test@mail.com", "login": "test", "password": "qwerty"}
-// {"email": "tes@mail.ua", "login": "tes", "password": "qwertyu"}
-
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth";
-
-export const authSignUpUser =
-  ({ login, email, password }) =>
-  async (dispatch, getState) => {
+export const registerUser = createAsyncThunk(
+  "auth/register",
+  async (userData, thunkApi) => {
     try {
-      const { user } = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      console.log("start");
 
-      dispatch(authSlice.actions.updateUserProfile({ userId: user.uid }));
+      const { login, email, password } = userData;
 
-      console.log("user", user);
-      console.log("user.uid", user.uid);
+      console.log("email, password", email, password);
 
-      await updateProfile(user, {
-        displayName: login,
-        // photoURL: photo,
-      });
+      await createUserWithEmailAndPassword(auth, email, password);
+
+      console.log("finish");
     } catch (error) {
-      throw error;
+      return thunkApi.rejectWithValue(error.message);
     }
-  };
+  }
+);
 
-export const authSignInUser =
-  ({ email, password }) =>
-  async (dispatch, getState) => {
-    try {
-      const user = await signInWithEmailAndPassword(auth, email, password);
-      console.log("login", user);
-    } catch (error) {
-      throw error;
-    }
-  };
-const authSignOutUser = () => async (dispatch, getSatte) => {};
+// export const authSignInUser =
+//   ({ email, password }) =>
+//   async (dispatch, getState) => {
+//     try {
+//       const user = await signInWithEmailAndPassword(auth, email, password);
+//       console.log("login", user);
+//     } catch (error) {
+//       throw error;
+//     }
+//   };
+// const authSignOutUser = () => async (dispatch, getSatte) => {};
