@@ -22,7 +22,7 @@ export const useRoute = (isAuth) => {
   if (!isAuth) {
     return (
       <AuthStack.Navigator
-        initialRouteName="LoginScreen"
+        initialRouteName="RegistrationScreen"
         screenOptions={{
           headerShown: false,
         }}
