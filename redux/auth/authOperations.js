@@ -1,20 +1,41 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { auth } from "../../firebase/config";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
-export const registerUser = createAsyncThunk(
+export const registerUser =
+  ({ email, password }) =>
+  async (dispatch, getState) => {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.log("error.message from registerUser", error.message);
+    }
+  };
+
+export const addLogin = (login) => async (dispatch, getState) => {
+  try {
+    await updateProfile(auth.currentUser, {
+      displayName: login,
+      photoURL: "https://reactjs.org/logo-og.png",
+    });
+  } catch (error) {
+    console.log("error.message from addLogin", error.message);
+  }
+};
+
+export const addToStore = createAsyncThunk(
   "auth/register",
   async (userData, thunkApi) => {
     try {
-      console.log("start");
-
-      const { login, email, password } = userData;
-
-      console.log("email, password", email, password);
-
-      await createUserWithEmailAndPassword(auth, email, password);
-
-      console.log("finish");
+      // console.log(userData)
+      const user = auth.currentUser;
+      console.log("addToStore User", user);
+      return {
+        userId: user.uid,
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+      };
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }

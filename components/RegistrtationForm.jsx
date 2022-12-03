@@ -16,7 +16,7 @@ import {
 
 import { EvilIcons } from "@expo/vector-icons";
 
-import { registerUser, register } from "../redux/auth/authOperations";
+import { registerUser, addLogin, addToStore} from "../redux/auth/authOperations";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthError, getAuthLoading } from "../redux/auth/authSelectors";
 import { changeError } from "../redux/auth/authSlice";
@@ -47,18 +47,22 @@ const RegistrationForm = ({ navigation }) => {
     Dimensions.addEventListener("change", onChange);
   }, []);
 
-  useEffect(() => {
-    if (!error) return;
-    alert(error);
-    console.log(error)
-  }, [error]);
+  // useEffect(() => {
+  //   if (!error) return;
+  //   alert(error);
+  //   console.log(error)
+  // }, [error]);
 
   const handleSubmit = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
 
-    // console.log(state);
     dispatch(registerUser(state));
+
+    dispatch(addLogin(state.login));
+    
+    dispatch(addToStore(state));
+
     setstate(initialState);
   };
 
