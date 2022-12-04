@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { auth } from "../../firebase/config";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword } from "firebase/auth";
 
 export const registerUser = createAsyncThunk(
   "auth/register",
@@ -33,14 +33,33 @@ export const registerUser = createAsyncThunk(
   }
 );
 
-// export const authSignInUser =
-//   ({ email, password }) =>
-//   async (dispatch, getState) => {
-//     try {
-//       const user = await signInWithEmailAndPassword(auth, email, password);
-//       console.log("login", user);
-//     } catch (error) {
-//       throw error;
-//     }
-//   };
+export const loginUser = createAsyncThunk(
+  "auth/login",
+  async (userData, thunkApi) => {
+    try {
+      const { email, password } = userData;
+
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const {
+        uid,
+        email: userEmail,
+        displayName,
+        photoURL,
+      } = userCredential.user;
+
+      return {
+        name: displayName,
+        userId: uid,
+        email: userEmail,
+        photo: photoURL,
+      };
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
 // const authSignOutUser = () => async (dispatch, getSatte) => {};

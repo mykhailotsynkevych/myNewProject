@@ -18,14 +18,8 @@ import { EvilIcons } from "@expo/vector-icons";
 
 import { registerUser } from "../redux/auth/authOperations";
 import { useDispatch, useSelector } from "react-redux";
-import { getAuthError, getAuthLoading } from "../redux/auth/authSelectors";
+import { getAuthError } from "../redux/auth/authSelectors";
 import { changeError } from "../redux/auth/authSlice";
-
-import {
-  getUserEmail,
-  getUserName,
-  getUserPhoto,
-} from "../redux/auth/authSelectors";
 
 const initialState = {
   login: "",
@@ -40,15 +34,8 @@ const RegistrationForm = ({ navigation }) => {
     Dimensions.get("window").width - 16 * 2
   );
 
-  const isLoading = useSelector(getAuthLoading);
   const error = useSelector(getAuthError);
   const dispatch = useDispatch();
-
-  const email = useSelector(getUserEmail);
-  const name = useSelector(getUserName);
-  const photo = useSelector(getUserPhoto);
-
-  console.log("RegistrationForm", email, name, photo);
 
   useEffect(() => {
     const onChange = () => {
@@ -74,6 +61,10 @@ const RegistrationForm = ({ navigation }) => {
   };
 
   const toLoginScreen = () => {
+        if (error) {
+      dispatch(changeError());
+    }
+
     setIsShowKeyboard(false);
     Keyboard.dismiss();
 
