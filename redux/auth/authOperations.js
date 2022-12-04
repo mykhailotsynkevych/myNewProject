@@ -1,6 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { auth } from "../../firebase/config";
-import { createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  updateProfile,
+} from "firebase/auth";
 
 export const registerUser = createAsyncThunk(
   "auth/register",
@@ -62,4 +68,39 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
-// const authSignOutUser = () => async (dispatch, getSatte) => {};
+export const logoutUser = createAsyncThunk(
+  "auth/logout",
+  async (_, thunkApi) => {
+    try {
+      await signOut(auth);
+      return;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const currentUser = createAsyncThunk("auth/current", async () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      unsubscribe();
+      if (user) {
+        resolve({
+          userId: user.uid,
+          name: user.displayName,
+          email: user.email,
+          photo: user.photoURL,
+          isAuth: true,
+        });
+      } else {
+        resolve({
+          userId: "",
+          name: "",
+          email: "",
+          photo: "",
+          isAuth: false,
+        });
+      }
+    });
+  });
+});

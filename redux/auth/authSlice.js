@@ -2,11 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   registerUser,
   loginUser,
-  // logoutUser,
-  // currentUser,
+  logoutUser,
+  currentUser,
 } from "./authOperations";
-
-
 
 const authSlice = createSlice({
   name: "auth",
@@ -46,38 +44,38 @@ const authSlice = createSlice({
         state.error = payload;
         state.isLoading = false;
       })
-    .addCase(loginUser.pending, (state) => {
-      state.isLoading = true;
-      state.error = null;
-    })
-    .addCase(loginUser.fulfilled, (state, { payload }) => {
-      const { userId, name, email, photo } = payload;
-      state.id = userId;
-      state.name = name;
-      state.email = email;
-      state.photo = photo;
-      state.isAuth = true;
-      state.isLoading = false;
-    })
-    .addCase(loginUser.rejected, (state, { payload }) => {
-      state.error = payload;
-      state.isLoading = false;
-    })
-    .addCase(logoutUser.fulfilled, (state) => {
-      state.id = "";
-      state.name = "";
-      state.email = "";
-      state.photo = "";
-      state.isAuth = false;
-    })
-    .addCase(currentUser.fulfilled, (state, { payload }) => {
-      const { userId, name, email, photo, isAuth } = payload;
-      state.id = userId;
-      state.name = name;
-      state.email = email;
-      state.photo = photo;
-      state.isAuth = isAuth;
-    });
+      .addCase(loginUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(loginUser.fulfilled, (state, { payload }) => {
+        const { userId, name, email, photo } = payload;
+        state.id = userId;
+        state.name = name;
+        state.email = email;
+        state.photo = photo;
+        state.isAuth = true;
+        state.isLoading = false;
+      })
+      .addCase(loginUser.rejected, (state, { payload }) => {
+        state.error = payload;
+        state.isLoading = false;
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.id = "";
+        state.name = "";
+        state.email = "";
+        state.photo = "";
+        state.isAuth = false;
+      })
+      .addCase(currentUser.fulfilled, (state, { payload }) => {
+        const { userId, name, email, photo, isAuth } = payload;
+        state.id = userId;
+        state.name = name;
+        state.email = email;
+        state.photo = photo;
+        state.isAuth = isAuth;
+      });
   },
 });
 

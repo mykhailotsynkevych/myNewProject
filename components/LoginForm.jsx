@@ -13,9 +13,9 @@ import {
   Dimensions,
 } from "react-native";
 
-import { authSignInUser } from "../redux/auth/authOperations";
-import { useDispatch } from "react-redux";
 import { loginUser } from "../redux/auth/authOperations";
+import { useDispatch } from "react-redux";
+import { getAuthError } from "../redux/auth/authSelectors";
 
 const initialState = {
   email: "",
@@ -29,7 +29,13 @@ const LoginForm = ({ navigation }) => {
     Dimensions.get("window").width - 16 * 2
   );
 
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const error = useSelector(getAuthError);
+  
+    useEffect(() => {
+    if (!error) return;
+    alert(error);
+  }, [error]);
 
   useEffect(() => {
     const onChange = () => {
@@ -45,11 +51,14 @@ const LoginForm = ({ navigation }) => {
     Keyboard.dismiss();
 
     // console.log(state);
-    dispatch(authSignInUser(state));
+    dispatch(loginUser(state));
     setstate(initialState);
   };
 
   const toRegistrationScreen = () => {
+        if (error) {
+      dispatch(changeError());
+    }
     setIsShowKeyboard(false);
     Keyboard.dismiss();
 
