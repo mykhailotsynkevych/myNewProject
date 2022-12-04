@@ -1,20 +1,19 @@
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
-
 import React, { useState, useEffect, useCallback } from "react";
 import { View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
-import { useRoute } from "./router";
 
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+
+import Main from "./components/Main";
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
   // const [user, setUser] = useState(null);
   // auth.onAuthStateChanged((user) => setUser(user));
 
-  const routing = useRoute(false);
+
   // console.log(user)
 
   const [fontsLoaded] = useFonts({
@@ -46,7 +45,7 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <NavigationContainer>{routing}</NavigationContainer>
+        <Main />
     </Provider>
   );
 }

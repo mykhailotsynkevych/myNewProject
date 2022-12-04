@@ -7,9 +7,12 @@ import {
 } from "react-native";
 
 import { AntDesign } from '@expo/vector-icons';
-// console.log("Hi123")
+
+import { useSelector, useDispatch } from "react-redux";
+import { getUserName } from "../../redux/auth/authSelectors";
 
 const ProfileScreen = ({ route, navigation }) => {
+    const userName = useSelector(getUserName);
 
   return (
     <View style={styles.container}>
@@ -21,7 +24,7 @@ const ProfileScreen = ({ route, navigation }) => {
           <View style={styles.avatarContainer}>
             <AntDesign name="closecircleo" size={28} color="black" style={styles.avatarPlusIcon}/>
             </View>
-          <Text style={styles.title}>Natali Romanova</Text>
+          <Text style={styles.title}>{userName }</Text>
         </View>
       </ImageBackground>
     </View>

@@ -1,3 +1,4 @@
+import { useDispatch, useSelector } from "react-redux";
 import React, { useState, useEffect, useCallback } from "react";
 import {
   StyleSheet,
@@ -14,7 +15,6 @@ import {
 } from "react-native";
 
 import { loginUser } from "../redux/auth/authOperations";
-import { useDispatch } from "react-redux";
 import { getAuthError } from "../redux/auth/authSelectors";
 
 const initialState = {
