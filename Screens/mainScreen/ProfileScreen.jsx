@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ImageBackground,
-} from "react-native";
+import { View, Text, StyleSheet, ImageBackground, Image } from "react-native";
 
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign } from "@expo/vector-icons";
 
 import { useSelector, useDispatch } from "react-redux";
-import { getUserName } from "../../redux/auth/authSelectors";
+import { getUserName, getUserPhoto } from "../../redux/auth/authSelectors";
 
 const ProfileScreen = ({ route, navigation }) => {
-    const userName = useSelector(getUserName);
+  const userName = useSelector(getUserName);
+  const userFoto = useSelector(getUserPhoto);
 
   return (
     <View style={styles.container}>
@@ -20,11 +16,18 @@ const ProfileScreen = ({ route, navigation }) => {
         style={styles.image}
         source={require("../../assets/images/bg-image.jpg")}
       >
-                <View style={styles.profil}>
+        <View style={styles.profil}>
           <View style={styles.avatarContainer}>
-            <AntDesign name="closecircleo" size={28} color="black" style={styles.avatarPlusIcon}/>
-            </View>
-          <Text style={styles.title}>{userName }</Text>
+            <Image source={{ uri: `${userFoto}` }} style={styles.img} />
+            <View style={styles.viewIcon}>
+            <AntDesign
+              name="closecircleo"
+              size={28}
+              color="#E8E8E8"
+              />
+              </View>
+          </View>
+          <Text style={styles.title}>{userName}</Text>
         </View>
       </ImageBackground>
     </View>
@@ -42,27 +45,31 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   profil: {
-        borderTopStartRadius: 25,
+    borderTopStartRadius: 25,
     borderTopEndRadius: 25,
     backgroundColor: "#fff",
     alignItems: "center",
   },
-    avatarContainer: {
-        width: 120,
-    height: 120,
-    borderRadius: 16,
+  avatarContainer: {
     marginBottom: 32,
     marginTop: -60,
-    backgroundColor: "#F6F6F6",
     justifyContent: "flex-end",
     alignItems: "flex-end",
   },
-      avatarPlusIcon: {
-    marginBottom: 12,
-        marginRight: -14,
-    backgroundColor: "#fff",
+    img: {
+    width: 120,
+    height: 120,
+    borderRadius: 16,
   },
-    title: {
+  viewIcon: {
+          backgroundColor: "#fff",
+    width: 28,
+    height: 28,
+    borderRadius: 28,
+        marginTop: -40,
+    marginRight: -14,
+    }, 
+  title: {
     fontFamily: "Roboto-Medium",
     fontSize: 30,
     lineHeight: 35,
