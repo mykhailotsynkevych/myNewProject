@@ -9,12 +9,10 @@ import { store } from "./redux/store";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
-import { auth } from "./firebase/config";
-
 export default function App() {
   const [isReady, setIsReady] = useState(false);
-  const [user, setUser] = useState(null);
-  auth.onAuthStateChanged((user) => setUser(user));
+  // const [user, setUser] = useState(null);
+  // auth.onAuthStateChanged((user) => setUser(user));
 
   const routing = useRoute(false);
   // console.log(user)

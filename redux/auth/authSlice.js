@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  addToStore,
+  registerUser,
   // loginUser,
   // logoutUser,
   // currentUser,
@@ -27,28 +27,11 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // .addCase(registerUser.pending, (state) => {
-      //   state.isLoading = true;
-      //   state.error = null;
-      // })
-      // .addCase(registerUser.fulfilled, (state, { payload }) => {
-      //   // const { userId, name, email, photo } = payload;
-      //   // state.id = userId;
-      //   // state.name = name;
-      //   // state.email = email;
-      //   // state.photo = photo;
-      //   // state.isAuth = true;
-      //   state.isLoading = false;
-      // })
-      // .addCase(registerUser.rejected, (state, { payload }) => {
-      //   state.error = payload;
-      //   state.isLoading = false;
-      // })
-      .addCase(addToStore.pending, (state) => {
+      .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(addToStore.fulfilled, (state, { payload }) => {
+      .addCase(registerUser.fulfilled, (state, { payload }) => {
         const { userId, name, email, photo } = payload;
         state.id = userId;
         state.name = name;
@@ -57,10 +40,10 @@ const authSlice = createSlice({
         state.isAuth = true;
         state.isLoading = false;
       })
-      .addCase(addToStore.rejected, (state, { payload }) => {
+      .addCase(registerUser.rejected, (state, { payload }) => {
         state.error = payload;
         state.isLoading = false;
-      });
+      })
     // .addCase(loginUser.pending, (state) => {
     //   state.isLoading = true;
     //   state.error = null;
