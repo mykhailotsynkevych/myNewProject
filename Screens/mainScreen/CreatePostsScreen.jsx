@@ -19,6 +19,10 @@ import {
   EvilIcons,
 } from "@expo/vector-icons";
 
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { collection, addDoc } from "firebase/firestore";
+import { db, storage } from "../../firebase/config";
+
 const initialState = {
   photo: null,
   name: "",
@@ -61,10 +65,33 @@ const CreatePostsScreen = ({ navigation }) => {
     return <Text>No access to camera</Text>;
   }
 
-  const btnPublicate = () => {
+
+
+  //   const uploadPhotoToServer = async () => {
+  //   const response = await fetch(state.photo);
+  //   const file = await response.blob();
+
+  //     const uniquePostId = Date.now().toString();
+      
+  //         const data = await db.storage().ref(`postImage/${uniquePostId}`).put(file);
+  //   console.log("data", data);
+
+  //   // const storageRef = ref(storage, `postImages/${uniquePostId}`);
+  //   // await uploadBytes(storageRef, file);
+
+  //   // const photoUrl = await getDownloadURL(
+  //   //   ref(storage, `postImages/${uniquePostId}`)
+  //   //   );
+      
+  //   //   console.log(photoUrl);
+  //   // return photoUrl;
+  // };
+
+    const btnPublicate = () => {
     // console.log("navigation", navigation);
     navigation.navigate("DefaultScreen", state);
-    takeLocationCoordiante();
+      takeLocationCoordiante();
+      // uploadPhotoToServer();
   };
 
   return (
