@@ -1,5 +1,6 @@
 import { Camera, CameraType } from "expo-camera";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import {
   Button,
   StyleSheet,
@@ -12,18 +13,18 @@ import {
 import * as MediaLibrary from "expo-media-library";
 import * as Location from "expo-location";
 
-import {
-  Ionicons,
-  AntDesign,
-  Feather,
-  EvilIcons,
-} from "@expo/vector-icons";
+import { Ionicons, AntDesign, Feather, EvilIcons } from "@expo/vector-icons";
+
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { collection, addDoc } from "firebase/firestore";
+import { db, storage } from "../../firebase/config";
+import { getUserId } from "../../redux/auth/authSelectors";
 
 const initialState = {
   photo: null,
   name: "",
   location: "",
-  coordinate: {}
+  coordinate: null,
 };
 
 const CreatePostsScreen = ({ navigation }) => {
@@ -31,8 +32,8 @@ const CreatePostsScreen = ({ navigation }) => {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [cameraRef, setCameraRef] = useState(null);
-
   const [cameraOn, setCameraOn] = useState(true);
+  const userId = useSelector(getUserId);
 
   function toggleCameraType() {
     setType((current) =>
@@ -40,19 +41,23 @@ const CreatePostsScreen = ({ navigation }) => {
     );
   }
 
-  const takeLocationCoordiante = async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         console.log("Permission to access location was denied");
+        return;
       }
-    const location = await Location.getCurrentPositionAsync();
-          const coords = {
+      const location = await Location.getCurrentPositionAsync({});
+      const coords = {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
       };
 
-      setstate((prevState) => ({ ...prevState, coordinate: coords}));
-  };
+      setstate((prevState) => ({ ...prevState, coordinate: coords }));
+      console.log("Hi1");
+    })();
+  }, []);
 
   if (!permission) {
     return <View />;
@@ -61,10 +66,39 @@ const CreatePostsScreen = ({ navigation }) => {
     return <Text>No access to camera</Text>;
   }
 
-  const btnPublicate = () => {
-    // console.log("navigation", navigation);
-    navigation.navigate("DefaultScreen", state);
-    takeLocationCoordiante();
+  const btnPublicate = async () => {
+    try {
+      const photoUrl = await uploadPhotoToServer();
+      await addDoc(collection(db, "posts"), {
+        photo: photoUrl,
+        name: state.name,
+        location: state.location,
+        coordinate: state.coordinate,
+        userId,
+        likes: [],
+        comments: 0,
+      });
+      navigation.navigate("DefaultScreen");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const uploadPhotoToServer = async () => {
+    const response = await fetch(state.photo);
+    const file = await response.blob();
+
+    const uniquePostId = Date.now().toString();
+
+    const storageRef = ref(storage, `postImages/${uniquePostId}`);
+
+    await uploadBytes(storageRef, file);
+
+    const photoUrl = await getDownloadURL(
+      ref(storage, `postImages/${uniquePostId}`)
+    );
+
+    return photoUrl;
   };
 
   return (
@@ -97,7 +131,12 @@ const CreatePostsScreen = ({ navigation }) => {
               placeholder="Название..."
               style={styles.input}
             />
-              <EvilIcons style={styles.iconLocation} name="location" size={35} color="#BDBDBD" />
+            <EvilIcons
+              style={styles.iconLocation}
+              name="location"
+              size={35}
+              color="#BDBDBD"
+            />
             <TextInput
               value={state.location}
               onChangeText={(value) =>
@@ -110,11 +149,7 @@ const CreatePostsScreen = ({ navigation }) => {
             {state.photo === null ||
             state.location === "" ||
             state.location === "" ? (
-              <TouchableOpacity
-                activeOpacity={0.8}
-                style={styles.button}
-
-              >
+              <TouchableOpacity activeOpacity={0.8} style={styles.button}>
                 <Text style={styles.btnTitle}>Опубликовать</Text>
               </TouchableOpacity>
             ) : (
@@ -140,7 +175,8 @@ const CreatePostsScreen = ({ navigation }) => {
           </View>
         </View>
       )}
-        {cameraOn && (<Camera
+      {cameraOn && (
+        <Camera
           style={styles.camera}
           type={type}
           ref={(ref) => {
@@ -175,8 +211,8 @@ const CreatePostsScreen = ({ navigation }) => {
               />
             </TouchableOpacity>
           </View>
-      </Camera>
-         )}
+        </Camera>
+      )}
     </View>
   );
 };

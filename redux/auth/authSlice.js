@@ -80,4 +80,6 @@ const authSlice = createSlice({
 });
 
 export const { changeError } = authSlice.actions;
+
 export default authSlice.reducer;
+
