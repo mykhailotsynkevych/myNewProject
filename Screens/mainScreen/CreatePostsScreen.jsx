@@ -1,5 +1,6 @@
 import { Camera, CameraType } from "expo-camera";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import {
   Button,
   StyleSheet,
@@ -17,12 +18,13 @@ import { Ionicons, AntDesign, Feather, EvilIcons } from "@expo/vector-icons";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc } from "firebase/firestore";
 import { db, storage } from "../../firebase/config";
+import { getUserId } from "../../redux/auth/authSelectors";
 
 const initialState = {
   photo: null,
   name: "",
   location: "",
-  coordinate: {},
+  coordinate: null,
 };
 
 const CreatePostsScreen = ({ navigation }) => {
@@ -30,8 +32,8 @@ const CreatePostsScreen = ({ navigation }) => {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
   const [cameraRef, setCameraRef] = useState(null);
-
   const [cameraOn, setCameraOn] = useState(true);
+  const userId = useSelector(getUserId);
 
   function toggleCameraType() {
     setType((current) =>
@@ -39,19 +41,22 @@ const CreatePostsScreen = ({ navigation }) => {
     );
   }
 
-  const takeLocationCoordiante = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
-      console.log("Permission to access location was denied");
-    }
-    const location = await Location.getCurrentPositionAsync();
-    const coords = {
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-    };
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        console.log("Permission to access location was denied");
+        return;
+      }
+      const location = await Location.getCurrentPositionAsync({});
+      const coords = {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      };
 
-    setstate((prevState) => ({ ...prevState, coordinate: coords }));
-  };
+      setstate((prevState) => ({ ...prevState, coordinate: coords }));
+    })();
+  }, []);
 
   if (!permission) {
     return <View />;
@@ -60,32 +65,39 @@ const CreatePostsScreen = ({ navigation }) => {
     return <Text>No access to camera</Text>;
   }
 
+  const btnPublicate = async () => {
+    try {
+      const photoUrl = await uploadPhotoToServer();
+      await addDoc(collection(db, "posts"), {
+        photo: photoUrl,
+        name: state.name,
+        location: state.location,
+        coordinate: state.coordinate,
+        userId,
+        likes: [],
+        comments: 0,
+      });
+      navigation.navigate("DefaultScreen");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const uploadPhotoToServer = async () => {
     const response = await fetch(state.photo);
     const file = await response.blob();
 
     const uniquePostId = Date.now().toString();
 
-    //       const data = await db.storage().ref(`postImage/${uniquePostId}`).put(file);
-    // console.log("data", data);
-
     const storageRef = ref(storage, `postImages/${uniquePostId}`);
+
     await uploadBytes(storageRef, file);
 
     const photoUrl = await getDownloadURL(
       ref(storage, `postImages/${uniquePostId}`)
     );
 
-    // console.log(photoUrl);
     return photoUrl;
-  };
-
-  const btnPublicate = async () => {
-    const photoUrl = await uploadPhotoToServer();
-    console.log(photoUrl);
-    // console.log("navigation", navigation);
-    navigation.navigate("DefaultScreen", state);
-    takeLocationCoordiante();
   };
 
   return (
