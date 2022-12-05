@@ -55,7 +55,7 @@ const CreatePostsScreen = ({ navigation }) => {
       };
 
       setstate((prevState) => ({ ...prevState, coordinate: coords }));
-      console.log("Hi");
+      console.log("Hi1");
     })();
   }, []);
 
