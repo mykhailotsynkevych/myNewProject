@@ -11,13 +11,15 @@ import * as Location from "expo-location";
 
 const MapScreen = ({ route, navigation }) => {
   const myLocation = route.params;
+  console.log(myLocation);
   
   return (
     <View style={styles.container}>
       <MapView
         style={styles.mapStyle}
         region={{
-          ...myLocation,
+          latitude: myLocation.latitude,
+          latitude: myLocation.longitude,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}

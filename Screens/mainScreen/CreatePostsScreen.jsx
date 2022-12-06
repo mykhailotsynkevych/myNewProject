@@ -28,6 +28,7 @@ const initialState = {
 };
 
 const CreatePostsScreen = ({ navigation }) => {
+    const [hasPermission, setHasPermission] = useState(null);
   const [state, setstate] = useState(initialState);
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
@@ -59,10 +60,19 @@ const CreatePostsScreen = ({ navigation }) => {
     })();
   }, []);
 
-  if (!permission) {
+    useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      await MediaLibrary.requestPermissionsAsync();
+
+      setHasPermission(status === "granted");
+    })();
+  }, []);
+
+  if (hasPermission === null) {
     return <View />;
   }
-  if (!permission.granted) {
+  if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
 
