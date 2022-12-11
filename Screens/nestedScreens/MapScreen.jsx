@@ -11,7 +11,6 @@ import * as Location from "expo-location";
 
 const MapScreen = ({ route, navigation }) => {
   const myLocation = route.params;
-  console.log(myLocation);
   
   return (
     <View style={styles.container}>

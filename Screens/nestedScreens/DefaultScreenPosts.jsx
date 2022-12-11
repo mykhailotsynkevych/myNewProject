@@ -27,7 +27,7 @@ const DefaultPostsScreen = ({ route, navigation }) => {
     const getAllPost = async () => {
     onSnapshot(collection(db, 'posts'), (doc) => {
       const postsArray = doc.docs.map(el => ({ ...el.data(), id: el.id }))
-      console.log(postsArray);
+      // console.log(postsArray);
       setPosts(postsArray)
     })
   }
@@ -59,7 +59,7 @@ const DefaultPostsScreen = ({ route, navigation }) => {
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={styles.locationView}
-                onPress={() => navigation.navigate("Comments", item.photo)}
+                onPress={() => navigation.navigate("Comments", item)}
               >
                 <Feather name="message-circle" size={28} color="#BDBDBD" />
                 <Text style={styles.messeges}>{item.comments}</Text>
