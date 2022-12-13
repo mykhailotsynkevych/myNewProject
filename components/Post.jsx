@@ -10,8 +10,8 @@ import { db } from "../firebase/config";
 import { getUserId, getUserName } from "../redux/auth/authSelectors";
 
 const Post = ({ item, navigation }) => {
-  const { photo, name, place, location, id, comments, likes } = item;
-  // console.log(userId);
+  const { photo, name, coordinate, location, id, comments, likes } = item;
+  // console.log(item);
   const userId = useSelector(getUserId);
   const userName = useSelector(getUserName);
   const route = useRoute();
@@ -36,17 +36,11 @@ const Post = ({ item, navigation }) => {
   };
 
   const navigateToComments = () => {
-    navigation.navigate("Comments", {
-      postId: id,
-      photo,
-    });
+    navigation.navigate("Comments", item);
   };
 
   const navigateToMap = () => {
-    navigation.navigate("Map", {
-      latitude: location ? location.latitude : 0,
-      longitude: location ? location.longitude : 0,
-    });
+    navigation.navigate("Map", coordinate);
   };
 
   return (
@@ -60,28 +54,20 @@ const Post = ({ item, navigation }) => {
         }}
       >
         <View style={styles.iconsContainer}>
-          {route.name === "Profile" ? (
+
             <FontAwesome
               name="comment"
               size={24}
               color="#FF6C00"
               onPress={navigateToComments}
             />
-          ) : (
-            <EvilIcons
-              name="comment"
-              size={24}
-              color="#BDBDBD"
-              onPress={navigateToComments}
-            />
-          )}
           <Text style={styles.commentsText}>{comments}</Text>
         </View>
         <View style={{ ...styles.iconsContainer, marginLeft: 24 }}>
           <AntDesign
             name="like2"
             size={20}
-            color={route.name === "Profile" ? "#FF6C00" : "#BDBDBD"}
+            color="#FF6C00"
             onPress={addLike}
           />
           <Text style={styles.commentsText}>{likes.length}</Text>
@@ -89,11 +75,11 @@ const Post = ({ item, navigation }) => {
         <View style={{ ...styles.iconsContainer, marginLeft: "auto" }}>
           <EvilIcons
             name="location"
-            size={24}
+            size={28}
             color="#BDBDBD"
             onPress={navigateToMap}
           />
-          <Text style={styles.placeText}>{place}</Text>
+          <Text style={styles.locationText}>{location}</Text>
         </View>
       </View>
     </View>
@@ -120,14 +106,14 @@ const styles = StyleSheet.create({
   },
   commentsText: {
     fontFamily: "Roboto-Regular",
-    fontSize: 16,
+    fontSize: 18,
     lineHeight: 19,
-    color: "#BDBDBD",
+    color: "#212121",
     marginLeft: 6,
   },
-  placeText: {
+  locationText: {
     fontFamily: "Roboto-Regular",
-    fontSize: 16,
+    fontSize: 20,
     lineHeight: 19,
     textDecorationLine: "underline",
     color: "#212121",

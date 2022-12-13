@@ -34,6 +34,7 @@ const CommentsScreen = ({ route, navigation }) => {
   const userPhoto = useSelector(getUserPhoto);
   const postId = route.params.id;
 
+
   const addComment = async () => {
     const date = new Date();
     await addDoc(collection(db, "posts", postId, "comments"), {
