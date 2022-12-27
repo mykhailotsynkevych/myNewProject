@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import { collection, doc, getDocs, onSnapshot } from 'firebase/firestore';
+import { collection, doc, getDocs, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase/config";
 
 import { EvilIcons, Feather } from "@expo/vector-icons";
@@ -17,28 +17,17 @@ import { EvilIcons, Feather } from "@expo/vector-icons";
 const DefaultPostsScreen = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
 
-  //   const getAllPosts = async () => {
-  //   onSnapshot(collection(db, "posts"), (querySnapshot) => {
-  //     const postsArray = querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-  //     setPosts(postsArray);
-  //   });
-  // };
-
-    const getAllPost = async () => {
-    onSnapshot(collection(db, 'posts'), (doc) => {
-      const postsArray = doc.docs.map(el => ({ ...el.data(), id: el.id }))
+  const getAllPost = async () => {
+    onSnapshot(collection(db, "posts"), (doc) => {
+      const postsArray = doc.docs.map((el) => ({ ...el.data(), id: el.id }));
       // console.log(postsArray);
-      setPosts(postsArray)
-    })
-  }
+      setPosts(postsArray);
+    });
+  };
 
   useEffect(() => {
     getAllPost();
   }, []);
-
-  // const toMap = () => {
-  //   navigation.navigate("Публикации", state);
-  // };
 
   return (
     <View style={styles.container}>
@@ -77,6 +66,38 @@ const DefaultPostsScreen = ({ route, navigation }) => {
           </View>
         )}
       />
+      {/* <View
+        style={{
+          marginBottom: 15,
+          marginHorizontal: 20,
+        }}
+      >
+        <Image
+          source={{ uri: "https://www.nastol.com.ua/mini/202212/508500.jpg" }}
+          style={styles.photo}
+        />
+        <Text style={styles.name}>Wald</Text>
+
+        <View style={styles.iconsContainer}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.locationView}
+            onPress={() => navigation.navigate("Comments")}
+          >
+            <Feather name="message-circle" size={28} color="#BDBDBD" />
+            <Text style={styles.messeges}>0</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.locationView}
+            onPress={() => navigation.navigate("Map")}
+          >
+            <EvilIcons name="location" size={35} color="#BDBDBD" />
+            <Text style={styles.location}>Austria</Text>
+          </TouchableOpacity>
+        </View>
+      </View> */}
     </View>
   );
 };

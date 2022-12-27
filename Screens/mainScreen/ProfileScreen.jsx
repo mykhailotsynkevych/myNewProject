@@ -29,7 +29,7 @@ const ProfileScreen = ({ route, navigation }) => {
   const userName = useSelector(getUserName);
   const userFoto = useSelector(getUserPhoto);
   const userId = useSelector(getUserId);
-    // console.log(userId);
+  
   const getOwnPosts = async () => {
     const q = query(collection(db, "posts"), where("userId", "==", userId));
     onSnapshot(q, (querySnapshot) => {
