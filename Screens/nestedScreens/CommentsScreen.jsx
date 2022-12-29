@@ -26,7 +26,6 @@ import Comment from "../../components/Comment";
 const CommentsScreen = ({ route, navigation }) => {
   const [comment, setComment] = useState("");
   const [allComments, setAllComments] = useState();
-  // console.log(allComments)
 
   const commentHandler = (text) => setComment(text);
 
@@ -48,10 +47,6 @@ const CommentsScreen = ({ route, navigation }) => {
     const docSnap = await getDoc(docRef);
     const docData = docSnap.data();
     await updateDoc(docRef, { comments: docData.comments + 1 });
-
-    // setComment("");
-    // setShowKeyboard(false);
-    // Keyboard.dismiss();
   };
 
   const getAllComments = async () => {

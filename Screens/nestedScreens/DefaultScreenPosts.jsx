@@ -20,7 +20,6 @@ const DefaultPostsScreen = ({ route, navigation }) => {
   const getAllPost = async () => {
     onSnapshot(collection(db, "posts"), (doc) => {
       const postsArray = doc.docs.map((el) => ({ ...el.data(), id: el.id }));
-      // console.log(postsArray);
       setPosts(postsArray);
     });
   };
@@ -107,8 +106,6 @@ const styles = StyleSheet.create({
   location: {
     fontFamily: "Roboto-Regular",
     fontSize: 22,
-    // borderBottomWidth: 1,
-    // borderColor: "#212121",
     textDecorationLine: "underline",
   },
 });

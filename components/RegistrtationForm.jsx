@@ -68,7 +68,6 @@ const RegistrationForm = ({ navigation }) => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
 
-    // console.log(state);
     setstate(initialState);
     navigation.navigate("LoginScreen");
   };

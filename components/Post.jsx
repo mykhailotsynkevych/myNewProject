@@ -11,7 +11,6 @@ import { getUserId, getUserName } from "../redux/auth/authSelectors";
 
 const Post = ({ item, navigation }) => {
   const { photo, name, coordinate, location, id, comments, likes } = item;
-  // console.log(item);
   const userId = useSelector(getUserId);
   const userName = useSelector(getUserName);
   const route = useRoute();

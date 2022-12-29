@@ -24,8 +24,6 @@ import Post from "../../components/Post";
 const ProfileScreen = ({ route, navigation }) => {
   const [posts, setPosts] = useState([]);
 
-  const dispatch = useDispatch();
-
   const userName = useSelector(getUserName);
   const userFoto = useSelector(getUserPhoto);
   const userId = useSelector(getUserId);
@@ -87,7 +85,6 @@ const styles = StyleSheet.create({
     borderTopStartRadius: 25,
     borderTopEndRadius: 25,
     backgroundColor: "#fff",
-    // alignItems: "center",
   },
   avatarContainer: {
     marginBottom: 32,

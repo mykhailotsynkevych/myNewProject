@@ -2,6 +2,8 @@
   "expo": {
     "name": "myNewProject",
     "slug": "myNewProject",
+    "privacy": "public",
+    "description": "An application to sharing photos as Instagram",
     "version": "1.0.0",
     "orientation": "default",
     "icon": "./assets/icon.png",
@@ -12,7 +14,8 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/6dc53117-9f7f-4d41-8351-dc67f13d4ff5"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -28,6 +31,14 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6dc53117-9f7f-4d41-8351-dc67f13d4ff5"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
     }
   }
 }
