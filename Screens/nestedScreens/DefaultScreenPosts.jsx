@@ -66,38 +66,6 @@ const DefaultPostsScreen = ({ route, navigation }) => {
           </View>
         )}
       />
-      {/* <View
-        style={{
-          marginBottom: 15,
-          marginHorizontal: 20,
-        }}
-      >
-        <Image
-          source={{ uri: "https://www.nastol.com.ua/mini/202212/508500.jpg" }}
-          style={styles.photo}
-        />
-        <Text style={styles.name}>Wald</Text>
-
-        <View style={styles.iconsContainer}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={styles.locationView}
-            onPress={() => navigation.navigate("Comments")}
-          >
-            <Feather name="message-circle" size={28} color="#BDBDBD" />
-            <Text style={styles.messeges}>0</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={styles.locationView}
-            onPress={() => navigation.navigate("Map")}
-          >
-            <EvilIcons name="location" size={35} color="#BDBDBD" />
-            <Text style={styles.location}>Austria</Text>
-          </TouchableOpacity>
-        </View>
-      </View> */}
     </View>
   );
 };

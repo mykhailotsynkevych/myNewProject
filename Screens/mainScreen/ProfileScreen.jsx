@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
   },
   posts: {
     marginHorizontal: 8,
+    height: "50%",
   }
 });
 

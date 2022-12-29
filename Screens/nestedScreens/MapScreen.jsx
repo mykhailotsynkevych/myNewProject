@@ -12,20 +12,26 @@ import * as Location from "expo-location";
 const MapScreen = ({ route, navigation }) => {
   const myLocation = route.params;
 
-  
   return (
     <View style={styles.container}>
       <MapView
         style={styles.mapStyle}
         region={{
           latitude: myLocation.latitude,
-          latitude: myLocation.longitude,
+          longitude: myLocation.longitude,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
         showsUserLocation={true}
       >
-        <Marker title="I am here" coordinate={myLocation} description="Hello" />
+        <Marker
+          title="I am here"
+          coordinate={{
+            latitude: myLocation.latitude,
+            longitude: myLocation.longitude,
+          }}
+          description="Hello"
+        />
       </MapView>
     </View>
   );
